@@ -1,95 +1,102 @@
+"use client"
 import Image from "next/image";
 import styles from "./page.module.css";
+import "./active.css"
+import starIcon from "@/interactive-rating-component-main/images/icon-star.svg"
+import illustrationImage from "@/interactive-rating-component-main/images/illustration-thank-you.svg"
+import React, { useState } from 'react';
 
 export default function Home() {
+  const [renderElement, setRenderElement] = useState(false);
+  const [rate, setRate] = useState("")
+
+  function changeElement(rateR) {
+    setRate(rateR)
+    setRenderElement(true)
+  }
+
+  const RenderRate = () => {
+    const [selectedOption, setSelectedOption] = useState("1")
+
+    function chageRate(rate) {
+      setSelectedOption(rate)
+    }
+
+    function handleSubmit(){
+      changeElement(selectedOption)
+    }
+
+    return (
+      <div className={styles.componentform}>
+        <div className={styles.imgboxformcomponent}>
+          <Image src={starIcon} />
+        </div>
+        <p className={styles.title}>How did we do?</p>
+        <p className={styles.description}>
+          Please let us know how we did with your support request. All feedback
+          is appreciated to help us improve our offerinq!
+        </p>
+        <div className={styles.ratebox}>
+          <label>
+            <input type="radio" id="opcao1" name="opcao"
+              onChange={() => chageRate("1")}
+            />
+            <span> 1 </span>
+          </label>
+          <label>
+            <input type="radio" id="opcao2" name="opcao"
+              onChange={() => chageRate("2")}
+            />
+            <span> 2 </span>
+          </label>
+          <label>
+            <input type="radio" id="opcao3" name="opcao"
+              onChange={() => chageRate("3")}
+            />
+            <span> 3 </span>
+          </label>
+          <label>
+            <input type="radio" id="opcao4" name="opcao"
+              onChange={() => chageRate("4")}
+            />
+            <span> 4 </span>
+          </label>
+          <label>
+            <input type="radio" id="opcao5" name="opcao"
+              onChange={() => chageRate("5")}
+            />
+            <span> 5 </span>
+          </label>
+        </div>
+        <button onClick={() => handleSubmit()} className={styles.btn}>
+          Submit
+        </button>
+      </div>
+    )
+  }
+
+  const TksComponent = () => {
+
+    function changeRating() {
+      setRenderElement(false)
+    }
+
+    return (
+      <div className={styles.componenttks}>
+        <Image 
+          src={illustrationImage}
+        />
+        <p className={styles.resume}>{`You selected ${rate} out of 5`}</p>
+        <p className={styles.title}>Thank you!</p>
+        <p className={styles.description}>We appreciate vou takinq the time to give a rating. If vou ever need more support. don't hesitate to get in touch!</p>
+        <button onClick={() => changeRating()} >Change Rating</button>
+      </div>
+    )
+  }
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      {!renderElement ? <RenderRate /> : <TksComponent />}
     </main>
   );
 }
